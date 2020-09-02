@@ -17,7 +17,7 @@ def home():
 @app.route('/nlp', methods=["GET"])
 def getnlp():
     nlp = spacy.load('en_core_web_sm')
-    client = MongoClient('mongodb://18.217.89.210:27017/')
+    client = MongoClient('mongodb://3.17.63.68:27017/')
     reviews = client.local.reviews
     product = reviews.find_one({"url":request.form['url']})
     product = json.loads(json_util.dumps(product))
@@ -55,7 +55,7 @@ def getnlp():
 
 @app.route('/reviews', methods=["GET"])
 def get_reviews():
-    client = MongoClient('mongodb://18.217.89.210:27017/')
+    client = MongoClient('mongodb://3.17.63.68:27017/')
     reviews = client.local.reviews
     product = reviews.find_one({"url":request.form['url']})
     product = json.loads(json_util.dumps(product))
@@ -63,7 +63,7 @@ def get_reviews():
 
 @app.route('/reviews', methods=["PUT"])
 def put_reviews():
-    client = MongoClient('mongod://18.217.89.210:27017/')
+    client = MongoClient('mongod://3.17.63.68:27017/')
     reviews = client.local.reviews
     if reviews.find_one({'url':request.form['url']}) ==  None:
         return json.loads(json.dumps({"response": "No such product from url " + request.form['url'] + " can be found in the database. Use 'POST' instead."}))
@@ -79,7 +79,7 @@ def put_reviews():
 @app.route('/reviews', methods=["POST"])
 def post_reviews():
     print(request.form['url'])
-    client = MongoClient('mongodb://18.217.89.210:27017/')
+    client = MongoClient('mongodb://3.17.63.68:27017/')
     reviews = client.local.reviews
     if reviews.find_one({'url':request.form['url']}) ==  None:
         scraper = scrape_class(str(request.form['url']))
@@ -94,8 +94,8 @@ def post_reviews():
 
 @app.route('/reviews', methods=["DELETE"])
 def delete_reviews():
-    client = MongoClient('mongodb://18.217.89.210:27017/')
-    reviews = client.local.reviews
+    client = MongoClient('mongodb://3.17.63.68:27017/')
+    reviews = client.local.reviews    
     reviews.remove({"url":request.form['url']})
     return json.loads(json.dumps({"response": "Product from url "+request.form['url']+" has been deleted from the database."}))
 
